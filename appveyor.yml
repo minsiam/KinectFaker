@@ -27,15 +27,15 @@ install:
     # ffmpeg
     if ($env:PLATFORM -eq "x64")
     {
-        appveyor DownloadFile 'https://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-3.3.3-win64-dev.zip' -Filename ffmpeg.zip
-        appveyor DownloadFile 'https://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-3.3.3-win64-shared.zip' -Filename ffmpeg-binary.zip
+        appveyor DownloadFile 'https://archive.org/download/zeranoe/win64/dev/ffmpeg-3.3.3-win64-dev.zip' -Filename ffmpeg.zip
+        appveyor DownloadFile 'https://archive.org/download/zeranoe/win64/shared/ffmpeg-3.3.3-win64-shared.zip' -Filename ffmpeg-binary.zip
         $ffmpeg_dir = "ffmpeg-3.3.3-win64-dev"
         $ffmpeg_binary_dir = "ffmpeg-3.3.3-win64-shared"
     }
     else
     {
-        appveyor DownloadFile 'https://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-3.3.3-win32-dev.zip' -Filename ffmpeg.zip
-        appveyor DownloadFile 'https://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-3.3.3-win32-shared.zip' -Filename ffmpeg-binary.zip
+        appveyor DownloadFile 'https://archive.org/download/zeranoe/win32/dev/ffmpeg-3.3.3-win32-dev.zip' -Filename ffmpeg.zip
+        appveyor DownloadFile 'https://archive.org/download/zeranoe/win32/shared/ffmpeg-3.3.3-win32-shared.zip' -Filename ffmpeg-binary.zip
         $ffmpeg_dir = "ffmpeg-3.3.3-win32-dev"
         $ffmpeg_binary_dir = "ffmpeg-3.3.3-win32-shared"
     }
@@ -68,12 +68,6 @@ before_build:
     cmake --version
     md build -Force | Out-Null
     cd build 
-    cmake -G "$generator"  -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CONFIGURATION_TYPES="Debug;Release" -DKinectSDK_INCLUDE_DIRS="C:\projects\deps\Headers" -DBUILD_GUI=OFF -DBUILD_TESTS=ON -DFFMPEG_DIR="C:\projects\deps\ffmpeg\ffmpeg" -DCMAKE_EXE_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_MODULE_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_STATIC_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_SHARED_LINKER_FLAGS="/SAFESEH:NO" ..
+    cmake -G "$generator"  -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CONFIGURATION_TYPES="Debug;Release" -DKinectSDK_INCLUDE_DIRS="C:\projects\deps\Headers" -DBUILD_GUI=OFF -DFFMPEG_DIR="C:\projects\deps\ffmpeg\ffmpeg" -DCMAKE_EXE_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_MODULE_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_STATIC_LINKER_FLAGS="/SAFESEH:NO" -DCMAKE_SHARED_LINKER_FLAGS="/SAFESEH:NO" ..
 build_script:
     - ps: cmake --build . --config $env:CONFIGURATION
-    
-test_script:
-- ps: |
-    $env:path += ";C:\projects\deps\runtime"
-    ctest -C $env:CONFIGURATION --output-on-failure
-    

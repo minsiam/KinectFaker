@@ -1,11 +1,9 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 configuration:
-    - Debug
     - Release
 platform:
     - x86
-    - x64
 environment:
     matrix:
     #    - Toolset: v140
